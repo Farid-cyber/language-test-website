@@ -1,0 +1,53 @@
+// .sidebar{
+
+
+@mixin media ($size) {
+    @media (max-width:$size) {
+        @content;
+    }
+}
+
+.sidebar {
+    width: 100%;
+    height: 100%;
+    margin-left: -387px;
+    transition: all ease-in-out 1000ms;
+    padding: 0 30px 0 30px;
+    background-color: rgb(239, 235, 235);
+    height: 100vh;
+
+
+    @include media(570px) {
+        width: 200px;
+        position: absolute;
+        // width: 200%;
+    }
+
+}
+
+.sidebar2 {
+    width: 100%;
+    height: 100%;
+    padding: 0 30px 0 30px;
+    transition: all ease-in-out 1000ms;
+    background-color: rgb(239, 235, 235);
+    height: 100vh;
+
+
+    @include media(960px) {
+        // width: 200px!important;
+        width: 400px !important;
+        position: absolute;
+        // width: 200%;
+        // background: white;
+    }
+
+    @include media(570px) {
+        width: 200px !important;
+        position: absolute;
+        // width: 200%;
+        // background: white;
+    }
+}
+
+// }
