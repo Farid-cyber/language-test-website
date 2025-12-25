@@ -5,7 +5,7 @@ type InitialProps = {
   category: Category;
 };
 
-const Category = ({ category }: InitialProps) => {
+const Category2 = ({ category }: InitialProps) => {
   return (
     <div className="test-card">
       <h2>{category.name}</h2>
@@ -18,4 +18,4 @@ const Category = ({ category }: InitialProps) => {
   );
 };
 
-export default Category;
+export default Category2;

@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook"
 import "./tests.scss"
 import { fetchCategories } from "../../redux/slices/categories"
 // import { Link } from "react-router-dom"
-import Category from "./category"
+import Category2 from "./category"
 import { useNavigate } from "react-router-dom"
 const TestPage = () => {
     const navigate = useNavigate()
@@ -20,7 +20,7 @@ const TestPage = () => {
         </div>
         <div className="tests-wrapper">
             {categories.map((c) => (
-                <Category category={c} />
+                <Category2 category={c} />
             ))}
         </div>
     </div>
