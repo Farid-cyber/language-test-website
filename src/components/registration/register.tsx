@@ -100,89 +100,63 @@ const Register = () => {
 
 
   return (
-    <div className="register">
-      <div>
-        <Toaster position="top-right" reverseOrder={false} />
+    <div className="auth-bg">
+      <Toaster position="top-right" />
+      <div className="test-header">
+        <button className="back-btn" onClick={() => navigate("/")}>
+          ← Bosh sahifaga qaytish
+        </button>
       </div>
-      {open === false ? (
-        <div className="register-card">
-          <h3>Akkauntga kirish</h3>
-          <div className="input-wrapper addition">
-            <label className="cursor-pointer" htmlFor="email">
-              Iltimos email kiriting
-            </label>
-            <input
-              id="email"
-              placeholder="email@gmail.com"
-              type="text"
-              className="input"
-              value={emailadress}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="input-wrapper addition">
-            <label className="cursor-pointer" htmlFor="password">
-              Iltimos parolni kiriting
-            </label>
-            <input
-              id="password"
-              placeholder="........."
-              type="password"
-              className="input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <h1 onClick={() => setOpen(true)}>
-            Akkauntingiz yo'qmi? <span>Ro'yxatdan o'ting</span>
-          </h1>
-          <button
-            onClick={handleEnter}
-            className="register-button cursor-pointer"
-          >
-            Sahifaga kirish
-          </button>
+      <div className="auth-card">
+        <h2 className="auth-title">
+          {open ? "Ro'yxatdan o'tish" : "Akkauntga kirish"}
+        </h2>
+
+        <div className="input-wrapper">
+          <label htmlFor="email">Email</label>
+          <input
+            id="email"
+            type="text"
+            placeholder="email@gmail.com"
+            value={emailadress}
+            onChange={(e) => setEmail(e.target.value)}
+          />
         </div>
-      ) : (
-        <div className="register-card">
-          <h3>Ro'yxatdan o'tish</h3>
-          <div className="input-wrapper addition">
-            <label className="cursor-pointer" htmlFor="email">
-              Iltimos email kiriting
-            </label>
-            <input
-              id="email"
-              placeholder="email@gmail.com"
-              type="text"
-              className="input"
-              value={emailadress}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="input-wrapper addition">
-            <label className="cursor-pointer" htmlFor="password">
-              Iltimos parolni kiriting
-            </label>
-            <input
-              id="password"
-              placeholder="........."
-              type="password"
-              className="input"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <h1 onClick={() => setOpen(false)}>Akkauntga kirish</h1>
-          <button
-            onClick={handleSave}
-            className="register-button cursor-pointer"
-          >
-            Ro'yxatdan o'tish
-          </button>
+
+        <div className="input-wrapper">
+          <label htmlFor="password">Parol</label>
+          <input
+            id="password"
+            type="password"
+            placeholder="********"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
         </div>
-      )}
+
+        {!open ? (
+          <>
+            <p className="switch" onClick={() => setOpen(true)}>
+              Akkauntingiz yo‘qmi? <span>Ro‘yxatdan o‘ting</span>
+            </p>
+            <button onClick={handleEnter} className="auth-btn">
+              Kirish
+            </button>
+          </>
+        ) : (
+          <>
+            <p className="switch" onClick={() => setOpen(false)}>
+              Akkauntga kirish
+            </p>
+            <button onClick={handleSave} className="auth-btn">
+              Ro‘yxatdan o‘tish
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
+
 };
 
 export default Register;

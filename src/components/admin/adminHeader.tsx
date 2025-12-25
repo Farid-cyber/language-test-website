@@ -14,7 +14,7 @@ const HeaderAdmin = ({ handleToggle }: InitialProps) => {
           className="text-primary"
           size={35}
         />
-        <h3 className="text-primary mt-1"> Admin</h3>
+        <h3 className="text-primary"> Admin</h3>
       </div>
     </div>
   );

@@ -9,6 +9,8 @@ export type Category = {
   id?: string;
   name: string;
   type: string;
+  createdAt?: number;
+  language: string;
 };
 
 export type Test = {

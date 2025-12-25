@@ -1,82 +1,94 @@
-// @import "tailwindcss";
-
-
-.register {
-    // display: flex;
-    max-width: 1200px;
+.auth-bg {
     width: 100%;
+    height: 100vh;
+    background: linear-gradient(#5a0000, #200000);
+    padding: 20px;
+    
+}
+
+.auth-card {
+    background: rgba(0, 0, 0, 0.65);
+    padding: 40px 35px;
+    border-radius: 14px;
+    max-width: 380px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0px 0px 20px rgb(0, 0, 0, 0.4);
+    animation: fadeIn 0.4s ease;
     margin: 0 auto;
-    // border: 1px solid;
+    margin-top: 40px;
+}
+
+.auth-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    color: #ffbf00;
+}
+
+.input-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 30px;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 15px;
 
-    .register-card {
-        max-width: 300px;
+    label {
+        color: #eee;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    input {
         width: 100%;
-        // height: 350px;
-        border: 1px solid;
-        border-radius: 15px;
-        margin-top: 30px;
-        padding: 20px;
+        padding: 12px;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        background-color: #5a0000;
+        color: white;
 
-        h3 {
-            font-size: 20px;
-            font-weight: 600;
-            color: black;
-            // margin-top: 20px;
-            cursor: pointer;
-            text-align: center;
-        }
+    }
+}
 
-        .input-wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: 7px;
 
-            label {
-                font-size: 17px;
-                font-weight: 600;
-                color: black;
-            }
 
-            input {
-                padding: 7px;
-                // padding-top: 2p;
-                display: flex;
-                align-items: center;
-                border: 1px solid rgb(156, 155, 155);
-                border-radius: 10px;
-            }
-        }
+.switch {
+    margin-top: 10px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 14px;
 
-        .addition {
-            margin-top: 20px;
-        }
+    span {
+        color: #ffbf00;
+        font-weight: bold;
+    }
+}
 
-        h1 {
-            font-size: 14px;
-            font-weight: 600;
-            color: black;
-            margin-top: 20px;
-            cursor: pointer;
+.auth-btn {
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 50px;
+    border: none;
+    background: #ffbf00;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
 
-            span {
-                color: rgba(82, 0, 217, 1);
-                text-decoration: underline;
-            }
-        }
+    &:hover {
+        background: #ffd74d;
+    }
+}
 
-        .register-button {
-            width: 100%;
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            color: white;
-            background-color: rgba(82, 0, 217, 1);
-            margin-top: 20px;
-        }
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }

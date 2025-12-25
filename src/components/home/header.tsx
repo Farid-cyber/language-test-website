@@ -2,10 +2,11 @@ import { useEffect, useState } from "react";
 import "./header.scss";
 // import { useAppDispatch, useAppSelector } from "../../redux/hook";
 // import { fetchUsers } from "../../redux/slices/users";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase.auth/firebase.auth";
+import toast, { Toaster } from "react-hot-toast";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -32,6 +33,15 @@ const Home = () => {
     check();
   }, []);
 
+
+  const navTo = () => {
+    if (user === null) {
+      toast.error("Birinchi bo'lib ro'yxatdan o'ting")
+      return
+    } else {
+      navigate("/tests")
+    }
+  }
   // useEffect(() => {
   //   dispatch(fetchUsers());
   // }, []);
@@ -53,31 +63,47 @@ const Home = () => {
   // }, [usertype, users]);
 
   return (
-    <div className="header">
-      <h1 onClick={() => navigate("/tests")}> Welcome our page</h1>
-      {user === "admin" ? (
-        <>
-          <button
-            className="btn btn-primary"
-            onClick={() => navigate("/admin/tests")}
-          >
-            Admin
-          </button>
-        </>
-      ) : user === "user" ? (
-        <>
-          <button
-            onClick={() => navigate("/myAccount")}
-            className="btn btn-primary">My Profile</button>
-        </>
-      ) : (
-        <>
-          <button
-            onClick={() => navigate("/registration")}
-            className="btn btn-primary">Sign in</button>
-        </>
-      )}
-    </div>
+    <div className="home">
+      <div><Toaster position="top-right"
+        reverseOrder={false} /></div>
+      <header className="header">
+        <h1 onClick={() => navigate("/")}>DE Nemis tili test platformasi</h1>
+
+        <div className="actions">
+          {user === "admin" ? (
+            <>
+              <button
+                className=""
+                onClick={() => navigate("/admin/tests")}
+              >
+                Admin
+              </button>
+            </>
+          ) : user === "user" ? (
+            <>
+              <button
+                onClick={() => navigate("/myAccount")}
+                className="btn btn-primary">Mening sahifam</button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => navigate("/registration")}
+                className="btn btn-primary">Kirish</button>
+            </>
+          )}
+        </div >
+      </header >
+
+      <section className="hero">
+        <div className="hero-card">
+          <h2>Xush kelibsiz!</h2>
+          <p>A1 darajadagi testni boshlang va o‘zingizni sinab ko‘ring.</p>
+          <button onClick={navTo} className="btn btn-warning">Testni boshlash</button>
+        </div>
+      </section>
+    </div >
+
   );
 };
 

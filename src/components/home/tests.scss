@@ -1,24 +1,98 @@
 .tests-page {
-    max-width: 1000px;
-    width: 100%;
-    border: 1px solid;
-    min-height: 100px;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #4b0000, #8b0000);
+    padding: 60px 20px;
+    color: #fff;
+}
+
+.tests-title {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 40px;
+    color: #ffc107;
+}
+
+.test-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.back-btn {
+    background: transparent;
+    border: 1.5px solid #ffc107;
+    color: #ffc107;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.back-btn:hover {
+    background: #ffc107;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+.tests-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
     margin: 0 auto;
-    margin-top: 40px;
+}
 
-    .tests-wrapper {
-        width: 100%;
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
+/* CATEGORY CARD */
+.test-card {
+    background: rgba(0, 0, 0, 0.45);
+    border-radius: 16px;
+    padding: 30px 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
 
-        .test-array{
-            padding: 30px;
-            border: 1px solid;
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+.test-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+}
+
+.test-card h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #ffc107;
+}
+
+.test-card p {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-bottom: 20px;
+}
+
+/* BUTTON */
+.take-test-btn {
+    background: #ffc107;
+    color: #000;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 25px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.take-test-btn:hover {
+    background: #ffb300;
+    transform: scale(1.05);
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+    .tests-title {
+        font-size: 28px;
     }
 }

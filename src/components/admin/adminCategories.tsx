@@ -13,7 +13,8 @@ const AdminCategories = () => {
   const [open, setOpen] = useState(false)
   const [categoryForm, setCategoryForm] = useState<Category>({
     name: "",
-    type: ""
+    type: "",
+    language: ""
   })
 
   const dispatch = useAppDispatch();
@@ -22,47 +23,63 @@ const AdminCategories = () => {
   }, [dispatch])
 
   const handleSave = async () => {
-    dispatch(addCategory(categoryForm))
+    dispatch(addCategory({ ...categoryForm, createdAt: Date.now() }))
     setCategoryForm({
       name: "",
-      type: ""
+      type: "",
+      language: ""
     })
     setOpen(false)
   }
 
-  return <div className="tests-wrapper">
-    <div className="d-flex justify-content-end w-100">
-      <button onClick={() => setOpen(true)} className="btn btn-primary">+ Add category</button>
+  return <div className="p-3">
+    <div className="d-flex justify-content-start! w-100">
+      <button onClick={() => setOpen(true)} className="btn btn-primary h-25">+ Add category</button>
     </div>
-    <div>
-      <Rodal
-        visible={open}
-        onClose={() => setOpen(false)}
-      >
-        <h4>Add Category</h4>
+    {/* <div> */}
+    <Rodal
+      className="rodal"
+      visible={open}
+      onClose={() => {
+        setOpen(false)
+      }}
+      // animation="fade"
+      customStyles={{
+        width: "350px",
+        height: "max-content",
+      }}
+    >
+      <h4>Add Category</h4>
 
-        <input
-          className="form-control mb-2"
-          placeholder="Category name"
-          value={categoryForm.name}
-          onChange={(e) =>
-            setCategoryForm({ ...categoryForm, name: e.target.value })
-          }
-        />
-        <div className="rodal-inside mt-4">
-          <select value={categoryForm.type}
-            onChange={(e) =>
-              setCategoryForm({ ...categoryForm, type: e.target.value })
-            }>
-            <option value="" disabled selected>select type</option>
-            <option value="vocabulary">Vocabulary</option>
-          </select>
-        </div>
-        <button onClick={handleSave} className="btn btn-success">
-          Save
-        </button>
-      </Rodal>
-    </div>
+      <input
+        className="form-control mb-2"
+        placeholder="Category name"
+        value={categoryForm.name}
+        onChange={(e) =>
+          setCategoryForm({ ...categoryForm, name: e.target.value })
+        }
+      />
+      <input
+        className="form-control mb-2"
+        placeholder="Category type"
+        value={categoryForm.type}
+        onChange={(e) =>
+          setCategoryForm({ ...categoryForm, type: e.target.value })
+        }
+      />
+      <input
+        className="form-control mb-2"
+        placeholder="Category language"
+        value={categoryForm.language}
+        onChange={(e) =>
+          setCategoryForm({ ...categoryForm, language: e.target.value })
+        }
+      />
+      <button onClick={handleSave} className="btn btn-success w-100 mt-2">
+        Save
+      </button>
+    </Rodal>
+    {/* </div> */}
   </div>;
 };
 

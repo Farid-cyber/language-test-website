@@ -1,9 +1,7 @@
-
-import { useParams } from "react-router-dom"
-import "./test.scss"
+import { useParams, useNavigate } from "react-router-dom";
+import "./test.scss";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
-// import { fetchCategories } from "../../redux/slices/categories";
 import { fetchTests } from "../../redux/slices/tests";
 import type { Test } from "../../types";
 import { addDoc, collection, getDocs } from "firebase/firestore";
@@ -13,166 +11,161 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../firebase.auth/firebase.auth";
 
 const Test1 = () => {
+    const navigate = useNavigate();
     const { id } = useParams();
-    const [questions, setQuestions] = useState<Test[]>([])
-    const [correctAnswers, setCorrectAnswers] = useState(0)
-    const [userId, setUserId] = useState<string | null>(null)
-    // const userId = localStorage.getItem("token")
 
-    const { tests } = useAppSelector(state => state.tests)
     const dispatch = useAppDispatch();
-    const [index, setIndex] = useState(0)
+    const { tests } = useAppSelector(state => state.tests);
 
-
-    useEffect(() => {
-        dispatch(fetchTests())
-    }, [dispatch])
-
-
-    const fetchTestsByCategory = async () => {
-        try {
-            const snapshot = await getDocs(collection(db, "tests"));
-            const data = snapshot.docs.map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-            })) as Test[];
-            const life = data.filter(c => c.categoryName == id)
-            setQuestions([...life])
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
+    const [questions, setQuestions] = useState<Test[]>([]);
     const [answers, setAnswers] = useState<{ [key: number]: string }>({});
-    useEffect(() => {
-        fetchTestsByCategory()
-    }, [id, tests])
-
-    const TOTAL_TIME = 200; // 3 minutes 20 seconds
-
-    const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
-    // const [startedAt, setStartedAt] = useState<number | null>(Date.now());
-    // const [setFinishedAt] = useState<number | null>(null);
-
-
     const [results, setResults] = useState<{ [key: number]: "correct" | "wrong" }>({});
+    const [index, setIndex] = useState(0);
+
+    const [started, setStarted] = useState(false);
     const [submitted, setSubmitted] = useState(false);
 
+    const TOTAL_TIME = 200;
+    const [timeLeft, setTimeLeft] = useState(TOTAL_TIME);
+
+    const [userId, setUserId] = useState<string | null>(null);
+
     useEffect(() => {
-        if (submitted) return;
+        onAuthStateChanged(auth, (user) => {
+            setUserId(user ? user.uid : null);
+        });
+    }, []);
+
+    useEffect(() => {
+        dispatch(fetchTests());
+    }, [dispatch]);
+
+    const fetchTestsByCategory = async () => {
+        const snapshot = await getDocs(collection(db, "tests"));
+        const data = snapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data(),
+        })) as Test[];
+
+        setQuestions(data.filter(q => q.categoryName === id));
+    };
+
+    useEffect(() => {
+        fetchTestsByCategory();
+    }, [id, tests]);
+
+    useEffect(() => {
+        if (!started || submitted) return;
+
         if (timeLeft <= 0) {
-            submitTest(); // auto submit
+            submitTest();
             return;
         }
+
         const timer = setTimeout(() => {
-            setTimeLeft(timeLeft - 1);
+            setTimeLeft(prev => prev - 1);
         }, 1000);
 
         return () => clearTimeout(timer);
-    }, [timeLeft, submitted, correctAnswers])
+    }, [timeLeft, started, submitted]);
 
     const checkAnswers = () => {
         const newResults: { [key: number]: "correct" | "wrong" } = {};
 
-        let correct = 0;
-        let wrong = 0;
-
         for (let i = 0; i < questions.length; i++) {
-            if (answers[i] === questions[i].correctAnswer) {
-                newResults[i] = "correct";
-                correct++;
-            } else {
-                newResults[i] = "wrong";
-                wrong++;
-            }
+            const userAnswer = answers[i] ? answers[i].trim().toUpperCase() : "";
+            const correctAnswer = questions[i].correctAnswer ? questions[i].correctAnswer.trim().toUpperCase() : "";
+            newResults[i] = userAnswer === correctAnswer ? "correct" : "wrong";
         }
-        // console.log(correct);
-        // setCorrectAnswers(correct)
-        // console.log(correctAnswers);
+
         setResults(newResults);
         setSubmitted(true);
     };
 
-    const check = () => {
-        onAuthStateChanged(auth, (user) => {
-            console.log(user);
-            if (user) {
-                setUserId(user.uid)
-            } else {
-                setUserId(null)
-            }
-        });
-    };
-
-
-    useEffect(() => {
-        check();
-    }, []);
-
-    // console.log(userId);
-
     const submitTest = async () => {
-        setSubmitted(true);
-        // setFinishedAt(Date.now()); // overall finish timestamp
+        if (submitted) return;
+
         checkAnswers();
-        const timeSpent = 200 - timeLeft;
-        let correct = 0;
 
-        for (let i = 0; i < questions.length; i++) {
-            if (answers[i] === questions[i].correctAnswer) {
-                correct++;
-            }
-        }
+        const correct = questions.filter(
+            (q, i) => answers[i]?.trim().toUpperCase() === q.correctAnswer?.trim().toUpperCase()
+        ).length;
 
-        setCorrectAnswers(correct);
-        const resultObj = {
+        await addDoc(collection(db, "results"), {
             testId: id,
-            userId: userId,
-            timeSpent: timeSpent,
+            userId,
             result: correct,
-            createdAt: Date.now()
-        }
-        try {
-            const docRef = await addDoc(collection(db, "results"), resultObj);
-            console.log({ ...resultObj, id: docRef.id });
-            return { ...resultObj, id: docRef.id };
-        } catch (e) {
-            console.error("Error adding document: ", e);
-            throw e;
-        }
+            timeSpent: TOTAL_TIME - timeLeft,
+            createdAt: Date.now(),
+        });
     };
 
     const minutes = Math.floor(timeLeft / 60);
     const seconds = timeLeft % 60;
 
-    return <div>
+    const questionButtons = questions.map((q, n) => {
+        let btnClass = "btn btn-outline-dark";
+        if (n === index) btnClass = "btn btn-dark text-white";
+
+        // After submission, color buttons based on results
+        if (submitted && results[n]) {
+            btnClass = results[n] === "correct" ? "btn btn-success text-white" : "btn btn-danger text-white";
+        }
+
+        return { id: q.id, number: n + 1, className: btnClass, index: n };
+    });
+
+
+    return (
         <div className="test-page">
-            <div className="timer">
-                Time Left: {minutes}:{seconds < 10 ? "0" : ""}{seconds}/3:20
+            <div className="test-header">
+                <button className="back-btn" onClick={() => navigate("/tests")}>
+                    ← Testlarga qaytish
+                </button>
+
+                {!started && !submitted && (
+                    <button className="start-btn" onClick={() => setStarted(true)}>
+                        Testni boshlash
+                    </button>
+                )}
             </div>
 
-            <TestArray
-                questions={questions}
-                index={index}
-                answers={answers}
-                setAnswers={setAnswers}
-                submitted={submitted}
-            />
+            {started && (
+                <div className="timer">
+                    ⏱ {minutes}:{seconds < 10 ? "0" : ""}{seconds}
+                </div>
+            )}
+
+            <div className={!started ? "locked" : ""}>
+                <TestArray
+                    questions={questions}
+                    index={index}
+                    answers={answers}
+                    setAnswers={setAnswers}
+                    submitted={submitted}
+                    started={started}
+                />
+            </div>
+
             <div className="buttons-wrapper d-flex gap-2">
-                {questions.map((c, n) => (
-                    <button key={c.id} onClick={() => setIndex(n)} className={`btn
-                        ${n === index ? "btn-dark text-white" : ""}
-                        ${results[n] === "correct" ? "btn-success" : ""}
-                        ${results[n] === "wrong" ? "btn-danger" : ""}
-                        ${results[n] === undefined && answers[n] !== undefined ? "btn-warning" : ""}
-                        ${results[n] === undefined && answers[n] === undefined ? "btn-outline-dark" : ""}
-                      `}>{n + 1}</button>
+                {questionButtons.map(btn => (
+                    <button
+                        key={btn.id}
+                        disabled={!started}
+                        onClick={() => setIndex(btn.index)}
+                        className={btn.className}
+                    >
+                        {btn.number}
+                    </button>
                 ))}
             </div>
-            <button className="btn btn-dark mt-3" onClick={submitTest}>Check</button>
+            {started && !submitted && (
+                <button className="btn btn-dark mt-3" onClick={submitTest}>
+                    Testni yakunlash
+                </button>
+            )}
         </div>
-    </div>
-}
+    );
+};
 
-export default Test1
+export default Test1;

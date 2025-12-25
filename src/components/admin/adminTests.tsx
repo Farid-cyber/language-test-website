@@ -45,20 +45,21 @@ const AdminTests = () => {
     setQuestion("")
   }
 
-  return <div className="tests-wrapper">
-    <div className="d-flex justify-content-end w-100"><button onClick={() => setOpen(true)} className="btn btn-primary">+ Add test</button></div>
+  return <div className="p-3">
+    <div className="d-flex justify-content-end w-100 h-25"><button onClick={() => setOpen(true)} className="btn btn-primary">+ Add test</button></div>
     <Rodal
       className="rodal"
       visible={open}
       onClose={() => {
         setOpen(false)
       }}
+      // animation="fade"
       customStyles={{
         width: "350px",
         height: "max-content",
       }}
     >
-      <div className="mt-4 rodal-body-scroll">
+      <div className="mt-4">
         <p>Test kiriting</p>
         <div>
           <input value={question} onChange={(e) => setQuestion(e.target.value)} className="form-control" type="text" placeholder="question..." />
