@@ -6,6 +6,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth"
 import { auth } from "../../firebase.auth/firebase.auth"
 import { useNavigate } from "react-router-dom"
 import ResultCard from "./resultCard"
+import "./myAccount.scss"
 
 const MyAccount = () => {
     const [results, setResults] = useState<Result[]>([])
@@ -70,20 +71,33 @@ const MyAccount = () => {
     if (loading) return <div>Loading...</div>
 
     return (
-        <div>
-            <h2>My Results</h2>
-            <div className="d-flex border gap-2 flex-wrap p-3">
+        <div className="my-account-page">
+            <div className="test-header">
+                <button className="back-btn" onClick={() => navigate("/")}>
+                    ← Bosh sahifaga qaytish
+                </button>
+            </div>
+            <h2>Mening natijalarim</h2>
+
+            <div className="results-wrapper">
                 {results.length === 0 ? (
-                    <p>No tests completed yet</p>
+                    <p>Hozircha testlar bajarilmagan</p>
                 ) : (
                     results.map((r) => (
-                        <ResultCard userId={r.userId} timeSpent={Number(r.timeSpent)} testId={r.testId} totalQuestions={10} createdAt={r.createdAt} correctAnswers={Number(r.result)} />
+                        <ResultCard
+                            key={r.id}
+                            userId={r.userId}
+                            timeSpent={Number(r.timeSpent)}
+                            testId={r.testId}
+                            totalQuestions={10}
+                            createdAt={r.createdAt}
+                            correctAnswers={Number(r.result)}
+                        />
                     ))
                 )}
             </div>
-            <div className="d-flex w-100 p-3 justify-content-end">
-                <button onClick={logOut} className="btn btn-primary">Log out</button>
-            </div>
+
+            <button onClick={logOut} className="logout-btn">Chiqish</button>
         </div>
     )
 }

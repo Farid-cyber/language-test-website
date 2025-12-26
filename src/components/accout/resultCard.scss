@@ -1,81 +1,60 @@
 .result-card {
-    max-width: 420px;
-    margin: auto;
-    background: #ffffff;
-    border-radius: 16px;
+    background: #3a0000;
+    color: #fff;
     padding: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    font-family: system-ui, sans-serif;
-    border: 1px solid;
-}
-
-.result-card h2 {
+    width: 260px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     text-align: center;
-    margin-bottom: 16px;
-}
+    transition: transform 0.2s;
 
-.stats {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
+    &:hover {
+        transform: translateY(-5px);
+    }
 
-.stats div {
-    text-align: center;
-}
+    .stats {
+        display: flex;
+        justify-content: space-between;
+        margin: 15px 0;
 
-.stats span {
-    font-size: 13px;
-    color: #777;
-}
+        div {
+            text-align: center;
 
-.stats strong {
-    display: block;
-    font-size: 22px;
-    margin-top: 4px;
-}
+            span {
+                font-size: 14px;
+                color: #dddddd;
+            }
 
-.progress-wrapper {
-    margin-bottom: 16px;
-}
+            strong {
+                display: block;
+                font-size: 20px;
+                font-weight: 700;
+            }
+        }
+    }
 
-.progress-label {
-    font-size: 14px;
-    margin-bottom: 6px;
-}
+    .progress-wrapper {
+        margin: 15px 0;
 
-.progress-bar {
-    height: 12px;
-    background: #eee;
-    border-radius: 10px;
-    overflow: hidden;
-}
+        .progress-bar {
+            height: 10px;
+            background: #550000;
+            border-radius: 5px;
+            overflow: hidden;
 
-.progress-fill {
-    height: 100%;
-    transition: width 0.6s ease;
-}
+            .progress-fill.good {
+                background: #00c853;
+            }
 
-.progress-fill.good {
-    background: linear-gradient(90deg, #4caf50, #81c784);
-}
+            .progress-fill.bad {
+                background: #ff5252;
+            }
+        }
 
-.progress-fill.bad {
-    background: linear-gradient(90deg, #f44336, #e57373);
-}
-
-.progress-text {
-    font-size: 13px;
-    color: #555;
-}
-
-.meta p {
-    font-size: 14px;
-    margin: 6px 0;
-}
-
-@media (max-width: 480px) {
-    .result-card {
-        padding: 16px;
+        .progress-text {
+            font-size: 14px;
+            margin-top: 4px;
+            display: block;
+        }
     }
 }
