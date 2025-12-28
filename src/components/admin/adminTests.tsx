@@ -83,8 +83,6 @@ const AdminTests = () => {
         )}
       </div>
 
-
-      {/* Modal for adding test */}
       <Rodal
         className="rodal"
         visible={open}
@@ -94,7 +92,6 @@ const AdminTests = () => {
           height: "max-content",
         }}
       >
-        {/* Your existing modal code stays unchanged */}
         <div className="mt-4">
           <p>Test kiriting</p>
           <div>
