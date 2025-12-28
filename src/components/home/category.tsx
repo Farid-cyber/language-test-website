@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { Category, Result } from "../../types";
+import type { Category} from "../../types";
 import { useEffect, useState } from "react";
 
 type InitialProps = {
@@ -9,7 +9,6 @@ type InitialProps = {
 
 const Category2 = ({ category }: InitialProps) => {
   const [label, setLabel] = useState<string | null>(null);
-  const [done, setDone] = useState<null | string>(null)
 
 
 
@@ -39,7 +38,6 @@ const Category2 = ({ category }: InitialProps) => {
       </div>
       <h2>{category.name}</h2>
       <p>{category.name} bo‘yicha savollar to‘plami</p>
-      {done === category.id ? <button className="btn btn-primary">Done</button> : ""}
       <Link to={`/tests/${category.id}`}>
         <button className="take-test-btn">Testni boshlash</button>
       </Link>

@@ -6,30 +6,14 @@ import { fetchCategories } from "../../redux/slices/categories"
 import Category2 from "./category"
 import { useNavigate } from "react-router-dom"
 // import type { Result } from "../../types"
-import { onAuthStateChanged } from "firebase/auth"
-import { auth } from "../../firebase.auth/firebase.auth"
+// import { onAuthStateChanged } from "firebase/auth"
+// import { auth } from "../../firebase.auth/firebase.auth"
 // import { collection, getDocs } from "firebase/firestore"
 // import { db } from "../../firebase/firebase.con"
 const TestPage = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const [, setUserId] = useState<null | string>(null)
     // const [results, setResults] = useState<Result[]>([])
-
-    const check = () => {
-        onAuthStateChanged(auth, (user) => {
-            // console.log(user);
-            if (user) {
-                setUserId(user.uid)
-            } else {
-                setUserId(null)
-            }
-        });
-    };
-
-    useEffect(() => {
-        check();
-    }, []);
     useEffect(() => {
         dispatch(fetchCategories())
     }, [dispatch])
