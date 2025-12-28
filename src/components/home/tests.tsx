@@ -1,4 +1,4 @@
-import { useEffect,  useState } from "react"
+import { useEffect} from "react"
 import { useAppDispatch, useAppSelector } from "../../redux/hook"
 import "./tests.scss"
 import { fetchCategories } from "../../redux/slices/categories"
