@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Rodal from "rodal";
 import type { Category } from "../../types";
-import { useAppDispatch } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { addCategory, fetchCategories } from "../../redux/slices/categories";
 import 'rodal/lib/rodal.css';
 import "./adminCategories.scss"
@@ -11,6 +11,8 @@ import "./adminCategories.scss"
 
 const AdminCategories = () => {
   const [open, setOpen] = useState(false)
+  const { categories } = useAppSelector(state => state.categories)
+  // const dispatch= useAppDispatch()
   const [categoryForm, setCategoryForm] = useState<Category>({
     name: "",
     type: "",
@@ -32,9 +34,22 @@ const AdminCategories = () => {
     setOpen(false)
   }
 
-  return <div className="p-3">
-    <div className="d-flex justify-content-start! w-100">
-      <button onClick={() => setOpen(true)} className="btn btn-primary h-25">+ Add category</button>
+  return <div className="categories-page-container">
+    <div className="top-header">
+      <h2>All Categories</h2>
+      <button onClick={() => setOpen(true)} className="add-category-btn">
+        + Add category
+      </button>
+    </div>
+    <div className="categories-list">
+      {categories.map((cat) => (
+        <div className="category-card" key={cat.id}>
+          <h4>{cat.name}</h4>
+          <span className="cat-type">{cat.type}</span>
+          <span className="cat-lang">{cat.language}</span>
+        </div>
+      ))}
+
     </div>
     {/* <div> */}
     <Rodal

@@ -54,6 +54,47 @@ const MyAccount = () => {
         fetchResults()
     }, [userId])
 
+    const [percentile, setPercentile] = useState<number | null>(null)
+
+    useEffect(() => {
+        if (!userId) return;
+
+        const fetchStats = async () => {
+            try {
+                // Fetch current user results
+                const qUser = query(collection(db, "results"), where("userId", "==", userId));
+                const userSnap = await getDocs(qUser);
+                const userData = userSnap.docs.map(doc => doc.data());
+
+                if (userData.length === 0) {
+                    setResults([]);
+                    return;
+                }
+
+                setResults(userData as Result[]);
+
+                // Find the best score of this user
+                const userBest = Math.max(...userData.map(r => Number(r.result)));
+
+                // Fetch ALL student results
+                const allSnap = await getDocs(collection(db, "results"));
+                const allData = allSnap.docs.map(doc => doc.data());
+
+                const lowerScores = allData.filter(r => Number(r.result) < userBest).length;
+                const totalUsers = allData.length;
+
+                const percent = Math.round((lowerScores / totalUsers) * 100);
+                setPercentile(percent);
+
+            } catch (e) {
+                console.error("Error calculating statistics:", e);
+            }
+        };
+
+        fetchStats();
+    }, [userId]);
+
+
 
     const logOut = () => {
         // console.log(auth);
@@ -68,6 +109,9 @@ const MyAccount = () => {
             });
     };
 
+
+    // console.log(Date.now());
+
     if (loading) return <div>Loading...</div>
 
     return (
@@ -78,6 +122,14 @@ const MyAccount = () => {
                 </button>
             </div>
             <h2>Mening natijalarim</h2>
+            {percentile !== null && (
+                <div className="level-stats-box">
+                    <h3>📈 Sizning o‘rningiz</h3>
+                    <p>
+                        Siz barcha talabalar orasida <strong>{percentile}%</strong> dan yaxshiroq natija ko‘rsatdingiz!
+                    </p>
+                </div>
+            )}
 
             <div className="results-wrapper">
                 {results.length === 0 ? (

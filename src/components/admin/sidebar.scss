@@ -13,13 +13,16 @@
     margin-left: -387px;
     transition: all ease-in-out 1000ms;
     padding: 0 30px 0 30px;
-    background-color: rgb(239, 235, 235);
-    height: 100vh;
+    background: linear-gradient(135deg, #4b0000, #8b0000);
+    // height: 100vh;
+    border-right: 2px solid white;
 
 
     @include media(570px) {
         width: 200px;
         position: absolute;
+        z-index: 60;
+
         // width: 200%;
     }
 
@@ -30,14 +33,17 @@
     height: 100%;
     padding: 0 30px 0 30px;
     transition: all ease-in-out 1000ms;
-    background-color: rgb(239, 235, 235);
-    height: 100vh;
+    background: linear-gradient(135deg, #4b0000, #8b0000);
+    // height: 100vh;
+    border-right: 2px solid white;
 
 
     @include media(960px) {
         // width: 200px!important;
         width: 400px !important;
         position: absolute;
+        z-index: 60;
+
         // width: 200%;
         // background: white;
     }
@@ -45,6 +51,7 @@
     @include media(570px) {
         width: 200px !important;
         position: absolute;
+        z-index: 60;
         // width: 200%;
         // background: white;
     }

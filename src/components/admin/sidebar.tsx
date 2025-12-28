@@ -50,7 +50,7 @@ const Sidebar = ({ visibility }: InitialProps) => {
 
   return (
     <div
-      className={`${visibility ? "sidebar2 h-vh! w-100" : "sidebar h-vh! w-100"
+      className={`${visibility ? "sidebar2 w-100" : "sidebar w-100"
         }`}
     >
       <div className="py-2 d-flex flex-column w-100">

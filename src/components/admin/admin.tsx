@@ -18,7 +18,7 @@ const Admin = () => {
     }
   };
   return (
-    <div className="w-100">
+    <div className="w-100 jjjj">
       <HeaderAdmin handleToggle={handleToggle} />
       <div className="w-100 d-flex">
         <div className="side">
